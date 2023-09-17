@@ -3,7 +3,7 @@ use std::str::FromStr;
 use crate::error::Error;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub(crate) enum Color {
+pub enum Color {
     Black , White
 }
 
