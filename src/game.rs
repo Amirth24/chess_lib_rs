@@ -11,9 +11,18 @@ pub struct Game {
 }
 
 impl Game{
+
+    /// Returns a new Game with default Game board
+    /// 
+    /// # Examples
+    /// ```
+    /// use chess_lib_rs::game::Game;
+    /// let game = Game::new();
+    /// ```
     pub fn new() -> Self {
         Self::load("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1".to_string()).unwrap()
     }
+
 
     fn load(fen_str: String) -> Result<Self, crate::error::Error> {    
         
@@ -54,7 +63,6 @@ impl Game{
         Ok(Self {
             board,
             fen_str: fen_str.to_string(),
-            prev_move: None,
             players,
             current_player,
             move_history: Vec::new()
@@ -69,7 +77,18 @@ impl Game{
         }
     }
 
-    fn update(&mut self, move_code: &str) -> Result<(), Error> {
+    /// Updates the game state with new move
+    /// 
+    /// # Arguments
+    /// * `move_code` - A string slice that holds the move code for the next state of the game
+    /// 
+    /// # Example
+    /// ```
+    /// use chess_lib_rs::game::Game;
+    /// let game = Game::new();
+    /// game.update("a1a2");  // Moves Pawn from a1 to a2
+    /// ```
+    pub fn update(&mut self, move_code: &str) -> Result<(), Error> {
         let game_move = moves::Move::from_str(move_code)?;
         self.board.apply_move(game_move, self.current_player.borrow().color)?;
 
@@ -78,6 +97,7 @@ impl Game{
         Ok(())
     }
 
+    /// Returns the fen of the current game state
     pub fn get_fen(&self) -> &str {
         &self.fen_str
     }
@@ -85,8 +105,19 @@ impl Game{
 }
 
 impl From<&str> for Game {
-    fn from(value: &str) -> Self {
-        Self::load(value.into()).expect("Failed to create Game")
+    /// Returns a new Game with provided fen
+    /// 
+    /// # Arguments
+    /// 
+    /// * `fen_str` - A string slice that holds the fen of the game
+    ///  
+    /// # Examples
+    /// ```
+    /// use chess_lib_rs::game::Game;
+    /// let game = Game::from("rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR w KQkq - 0 1");
+    /// ```
+    fn from(fen: &str) -> Self {
+        Self::load(fen.into()).expect("Failed to create Game")
     }
 }
 
