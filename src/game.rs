@@ -3,11 +3,10 @@ use std::{rc::Rc, cell::RefCell, str::FromStr};
 use crate::{board::GameBoard, pieces::Color, player::Player, error::Error, moves};
 
 pub struct Game {
-    pub board: GameBoard,
+    board: GameBoard,
     fen_str: String,
     current_player: Rc<RefCell<Player>>,
     players: [Rc<RefCell<Player>>; 2],
-    prev_move: Option<moves::Move>,
     move_history: Vec<moves::Move>
 }
 
@@ -72,11 +71,10 @@ impl Game{
 
     fn update(&mut self, move_code: &str) -> Result<(), Error> {
         let game_move = moves::Move::from_str(move_code)?;
-
-
         self.board.apply_move(game_move, self.current_player.borrow().color)?;
 
         self.switch_player();
+        self.move_history.push(game_move);
         Ok(())
     }
 
