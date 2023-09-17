@@ -72,9 +72,7 @@ impl FromStr for Piece {
 
         let color = if s.chars().next().unwrap().is_uppercase() {Color::White} else {Color::Black};
 
-        Ok(Self {
-            piece_type, color
-        }) 
+        Ok(Self::new(piece_type, color)) 
     }
 
 }

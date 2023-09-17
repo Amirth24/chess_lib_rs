@@ -85,7 +85,7 @@ impl Game{
     /// # Example
     /// ```
     /// use chess_lib_rs::game::Game;
-    /// let game = Game::new();
+    /// let mut game = Game::new();
     /// game.update("a1a2");  // Moves Pawn from a1 to a2
     /// ```
     pub fn update(&mut self, move_code: &str) -> Result<(), Error> {

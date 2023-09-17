@@ -1,0 +1,11 @@
+name: Run tests
+on: [push]
+jobs: 
+    Run-unit-test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions-rs/toolchain@v1
+              with:
+                toolchain: stable
+            - run: cargo test --lib --release 
